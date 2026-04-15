@@ -5,7 +5,7 @@ from pythonosc import udp_client
 
 # --- Configuration ---
 CSV_PATH = r"C:\Users\matte\Desktop\audio_ux\EV_UX\CSV_files"
-FILENAME = "15_STR_Traction_Load_Spikes.csv"
+FILENAME = "17_ENV_Suburban.csv"
 FULL_PATH = os.path.join(CSV_PATH, FILENAME)
 
 # OSC
