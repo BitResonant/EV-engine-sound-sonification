@@ -58,7 +58,7 @@ def run_realtime_obd_to_max():
             time.sleep(wait_time)
 
     except KeyboardInterrupt:
-        print("\n\nSessione Real-Time terminata.")
+        print("\n\nReal-Time Session Terminate.")
     finally:
         connection.close()
 
