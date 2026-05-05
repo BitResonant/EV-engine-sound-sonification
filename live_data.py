@@ -16,7 +16,7 @@ client = udp_client.SimpleUDPClient(UDP_IP, UDP_PORT)
 def run_realtime_obd_to_max():
     print(f"--- Real-Time OBD connection (Port: {PORT}) ---")
     
-    # initialization connection
+    # initialize connection
     connection = obd.OBD(PORT, protocol=PROTOCOL, baudrate=BAUD)
 
     if not connection.is_connected():
