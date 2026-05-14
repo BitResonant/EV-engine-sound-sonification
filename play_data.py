@@ -4,8 +4,8 @@ import os
 from pythonosc import udp_client
 
 # --- Configuration ---
-CSV_PATH = r"C:\Users\matte\Desktop\audio_ux\EV_UX\CSV_files"
-FILENAME = "08_DYN_Acc_100_Percent.csv"
+CSV_PATH = r"write your csv file path here"
+FILENAME = "write your csv file name here"
 FULL_PATH = os.path.join(CSV_PATH, FILENAME)
 
 # OSC

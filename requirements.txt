@@ -1,0 +1,11 @@
+# OBD-II communication for reading vehicle diagnostics
+# Used by: rec_data.py, live_data.py
+python-obd>=0.7.1,<1.0
+
+# Open Sound Control (OSC) client for sending data to Max MSP
+# Used by: play_data.py, live_data.py
+python-osc>=1.8.0,<2.0
+
+# Serial communication library (dependency of python-obd)
+# Used by: python-obd for vehicle connection
+pyserial>=3.5,<4.0
