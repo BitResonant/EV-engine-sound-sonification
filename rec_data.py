@@ -5,8 +5,8 @@ import os
 
 # file name/path configuration
 PORT = "COM8"
-SAVE_PATH = r"(write your save path here)"
-FILENAME = f"(write your file name here)"
+SAVE_PATH = r"write your save path here"
+FILENAME = f"write your file name here"
 FULL_PATH = os.path.join(SAVE_PATH, FILENAME)
 
 def run_telemetry_csv():
