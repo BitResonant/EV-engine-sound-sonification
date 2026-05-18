@@ -27,6 +27,7 @@ setup\install_windows.bat
 ```
 
 The installer will:
+
 - Create a Python virtual environment at `.venv/`
 - Install dependencies from `setup/requirements.txt`
 - Remove macOS metadata files (`.DS_Store`) to keep repository clean
@@ -154,15 +155,18 @@ Use these datasets to validate algorithm behavior across diverse driving conditi
 ## Troubleshooting
 
 **"Unable to connect to the car"**
+
 - Verify vLinker is powered and connected to the USB port
 - Check `PORT` configuration matches your serial port (use Device Manager on Windows, `ls /dev/tty*` on macOS/Linux)
 - Ensure vehicle is in "on" or "ready" state (not off)
 
 **"error: File not found"** (in play_data.py)
+
 - Verify `CSV_PATH` and `FILENAME` are correct and file exists
 - Use absolute paths if relative paths aren't working
 
 **OSC messages not reaching Max MSP**
+
 - Verify Max patch is listening on port `5005`
 - Confirm `UDP_IP = "127.0.0.1"` in Python script (localhost)
 - Check firewall isn't blocking UDP on port 5005
