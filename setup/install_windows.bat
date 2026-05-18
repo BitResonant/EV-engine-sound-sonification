@@ -32,7 +32,7 @@ if not exist "..\.venv" (
 
 :: 4. Activate and install dependencies
 echo Activating virtual environment and installing dependencies...
-call ..\venv\Scripts\activate.bat
+call ..\.venv\Scripts\activate.bat
 if !errorlevel! neq 0 (
     echo ERROR: Failed to activate virtual environment.
     pause
@@ -57,6 +57,6 @@ if !errorlevel! neq 0 (
 
 echo.
 echo --- Installation completed successfully! ---
-echo To activate the environment later, run: ..\venv\Scripts\activate
+echo To activate the environment later, run: ..\.venv\Scripts\activate
 echo.
 pause
