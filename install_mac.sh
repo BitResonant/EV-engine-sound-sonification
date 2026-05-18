@@ -16,7 +16,13 @@ if [ ! -f "requirements.txt" ]; then
     exit 1
 fi
 
-# 3. Create virtual environment if it doesn't exist
+# 3. Remove macOS metadata files from the project directory
+echo "Cleaning macOS .DS_Store files..."
+find . -name ".DS_Store" -print -delete || {
+    echo "WARNING: Failed to remove some .DS_Store files."
+}
+
+# 4. Create virtual environment if it doesn't exist
 if [ ! -d ".venv" ]; then
     echo "Creating virtual environment .venv..."
     python3 -m venv .venv || {
