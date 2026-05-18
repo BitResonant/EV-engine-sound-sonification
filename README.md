@@ -1,13 +1,13 @@
 # EV Engine Sound Sonification
 
-Real-time audio engine that converts electric vehicle (EV) diagnostic parameters into synthesized engine sounds. This system bridges OBD-II vehicle telemetry (RPM, engine load, speed) with Max MSP audio synthesis via OSC communication to create immersive engine sonification.
+Real-time audio engine that uses thermic engine vehicle diagnostic parameters to create a synthesized electric vehicle (EV) engine sound. This system bridges OBD-II vehicle telemetry (RPM, engine load, speed) with Max MSP audio synthesis via OSC communication to create immersive and useful engine sonification.
 
 ## Prerequisites
 
 Before installation, ensure you have:
 
-- **Hardware**: Electric vehicle with OBD-II diagnostics support + vLinker serial adapter
-- **Software**: 
+- **Hardware**: Vehicle with OBD-II diagnostics support + vLinker serial adapter
+- **Software**:
   - Python 3.7 or later
   - Max 8 or later (for audio synthesis patches)
 - **Connectivity**: USB serial port available (e.g., `COM8` on Windows, `/dev/ttyUSB0` on macOS/Linux)
@@ -34,6 +34,7 @@ The installer will:
 ## Project Structure
 
 **Core Operational Files (Root):**
+
 - `engineV1.maxpat` — Primary audio synthesis engine with hybrid wavetable and effects processing
 - `granular.maxpat` — Granular synthesis module for textured soundscapes
 - `live_data.py` — Real-time OBD-II to OSC bridge (connects vehicle to Max MSP)
@@ -41,11 +42,13 @@ The installer will:
 - `Audio_files/` — Granular synthesis source material
 
 **Setup & Configuration (`setup/`):**
+
 - `requirements.txt` — Python package dependencies
 - `install_mac.sh` — Automated macOS setup script
 - `install_windows.bat` — Automated Windows setup script
 
 **Data Tools & Algorithm Development (`data-tools/`):**
+
 - `play_data.py` — CSV playback to OSC (for testing without a live vehicle)
 - `rec_data.py` — OBD-II data recording to CSV files
 - `CSV_files/` — Test datasets (18 recorded driving scenarios)
