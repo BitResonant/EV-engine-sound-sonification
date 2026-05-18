@@ -11,16 +11,16 @@ if %errorlevel% neq 0 (
 )
 
 :: 2. Check if requirements.txt exists
-if not exist "requirements.txt" (
-    echo ERROR: requirements.txt not found in current directory.
+if not exist "..\requirements.txt" (
+    echo ERROR: requirements.txt not found in parent directory.
     pause
     exit /b 1
 )
 
 :: 3. Create virtual environment
-if not exist ".venv" (
-    echo Creating virtual environment .venv...
-    python -m venv .venv
+if not exist "..\.venv" (
+    echo Creating virtual environment ..\.venv...
+    python -m venv ..\.venv
     if !errorlevel! neq 0 (
         echo ERROR: Failed to create virtual environment.
         pause
@@ -32,7 +32,7 @@ if not exist ".venv" (
 
 :: 4. Activate and install dependencies
 echo Activating virtual environment and installing dependencies...
-call .venv\Scripts\activate.bat
+call ..\venv\Scripts\activate.bat
 if !errorlevel! neq 0 (
     echo ERROR: Failed to activate virtual environment.
     pause
@@ -48,7 +48,7 @@ if !errorlevel! neq 0 (
 )
 
 echo Installing requirements...
-pip install -r requirements.txt
+pip install -r ..\requirements.txt
 if !errorlevel! neq 0 (
     echo ERROR: Failed to install dependencies.
     pause
@@ -57,6 +57,6 @@ if !errorlevel! neq 0 (
 
 echo.
 echo --- Installation completed successfully! ---
-echo To activate the environment later, run: .venv\Scripts\activate
+echo To activate the environment later, run: ..\venv\Scripts\activate
 echo.
 pause
