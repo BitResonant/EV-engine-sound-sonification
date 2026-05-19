@@ -11,8 +11,8 @@ if ! command -v python3 &> /dev/null; then
 fi
 
 # 2. Check if requirements.txt exists
-if [ ! -f "requirements.txt" ]; then
-    echo "ERROR: requirements.txt not found in current directory."
+if [ ! -f "../requirements.txt" ]; then
+    echo "ERROR: requirements.txt not found in parent directory."
     exit 1
 fi
 
@@ -23,9 +23,9 @@ find . -name ".DS_Store" -print -delete || {
 }
 
 # 4. Create virtual environment if it doesn't exist
-if [ ! -d ".venv" ]; then
-    echo "Creating virtual environment .venv..."
-    python3 -m venv .venv || {
+if [ ! -d "../.venv" ]; then
+    echo "Creating virtual environment ../.venv..."
+    python3 -m venv ../.venv || {
         echo "ERROR: Failed to create virtual environment."
         exit 1
     }
@@ -35,7 +35,7 @@ fi
 
 # 4. Activate environment and install dependencies
 echo "Activating virtual environment..."
-source .venv/bin/activate || {
+source ../.venv/bin/activate || {
     echo "ERROR: Failed to activate virtual environment."
     exit 1
 }
@@ -47,12 +47,12 @@ pip install --upgrade pip || {
 }
 
 echo "Installing requirements..."
-pip install -r requirements.txt || {
+pip install -r ../requirements.txt || {
     echo "ERROR: Failed to install dependencies."
     exit 1
 }
 
 echo
 echo "--- Installation completed successfully! ---"
-echo "To start the project, activate the environment with: source .venv/bin/activate"
+echo "To start the project, activate the environment with: source ../.venv/bin/activate"
 echo
