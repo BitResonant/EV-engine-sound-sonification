@@ -39,6 +39,7 @@ The installer will:
 - `engineV1.maxpat` — Primary audio synthesis engine with hybrid wavetable and effects processing
 - `granular.maxpat` — Granular synthesis module for textured soundscapes
 - `live_data.py` — Real-time OBD-II to OSC bridge (connects vehicle to Max MSP)
+- `live_data_universal.py` — Universal OBD-II to OSC bridge with automatic protocol and serial port detection
 - `Wavetables/` — Audio assets for wavetable synthesis layers
 - `Audio_files/` — Granular synthesis source material
 
@@ -59,20 +60,31 @@ The installer will:
 
 ### Live Operation with Vehicle
 
-Before running, configure your hardware connection in `live_data.py`:
+For most vehicles, use `live_data_universal.py` to automatically detect both the serial port and the OBD protocol.
+
+If you want to rely on auto-detection, leave `PORT = None` in `live_data_universal.py`:
 
 ```python
-PORT = "COM8"              # Serial port (change to your vLinker port)
-BAUD = 115200             # Standard baud rate for vLinker
-PROTOCOL = "7"            # CAN 29-bit protocol (specific to your vehicle)
+PORT = None                 # Automatic serial port detection
+BAUD = 115200               # Standard baud rate for vLinker
+```
+
+If the script cannot connect automatically, it will print detected serial ports and ask you to manually set `PORT`:
+
+```python
+PORT = "COM8"              # Serial port override (Windows)
+# or
+PORT = "/dev/ttyUSB0"      # Serial port override (macOS/Linux)
 ```
 
 Then activate the environment and start the real-time bridge:
 
 ```bash
 source .venv/bin/activate
-python live_data.py
+python live_data_universal.py
 ```
+
+If you still need the original fixed-port version, `live_data.py` can be used as before with explicit `PORT`, `BAUD`, and `PROTOCOL` settings.
 
 The system will connect to your vehicle and stream telemetry to Max MSP at `127.0.0.1:5005` via OSC.
 
