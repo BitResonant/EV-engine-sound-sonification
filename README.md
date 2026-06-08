@@ -22,7 +22,7 @@ The Wavetable Module establishes the signature melodic and harmonic identity of 
 
 ### Granular Module (Organic Micro-Synthesis)
 
-The granular module provides organic friction, mechanical "breath," and macroscopic roughness, breaking the clinical linearity typical of digital EV synthesis.
+The granular module provides organic friction, mechanical "breath", and macroscopic roughness, breaking the clinical linearity typical of digital EV synthesis.
 
 * **Dynamic Instance Allocation (`poly~` Optimization):** The engine spawns 36 parallel instances of a customized granular voice. To achieve deterministic computational efficiency, individual instances utilize strict **just-in-time (JIT) activation logic**. Voice threads are computed and unmuted *only* for the precise duration of a grain's windowing function, and immediately deactivated upon grain termination. This prevents idle CPU pooling and thread serialization overhead.
 * **Vectorized Parameter Windowing:** Each voice pulls from a stochastic boundary window updated via low-frequency data arrays, ensuring non-repetitive micro-structural variations.
