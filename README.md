@@ -16,22 +16,22 @@ The Wavetable Module establishes the signature melodic and harmonic identity of 
 * **RPM (Revolutions Per Minute):** Maps concurrently to three destinations:
     1. *Wavetable Phase Accumulator Read Position:* Alters the starting phase and scan index.
     2. *Fundamental Frequency:* Scales the lookup-table playback speed via an interpolated geometric mapping function, maintaining a constant proportional relationship with the granular textures to ensure absolute spectral alignment.
-    3. *Amplitudinal Balance:* Controls the relative gain of upper extensions against the fundamental. Low RPM prioritizes the fundamental f0, producing a dark, warm, and comforting timbre. High RPM introduces high-frequency brilliance (f > 2 kHz) and a prominent melodic environment.
-* **Engine Load:** Modulates the frequency of inter-octave beatings (f_beat) across the modules. This synthesis technique simulates mechanical strain by accelerating a micro-tremolo/amplitude modulation (AM) depth, mapping physical effort directly to perceived acoustic tension.
+    3. *Amplitudinal Balance:* Controls the relative gain of upper extensions against the fundamental. Low RPM prioritizes the fundamental f0, producing a dark, warm, and comforting timbre. High RPM introduces high-frequency brilliance and a prominent melodic environment.
+* **Engine Load:** Modulates the frequency of inter-octave beatings across the modules. This synthesis technique simulates mechanical strain by accelerating a micro-tremolo/amplitude modulation depth, mapping physical effort directly to perceived acoustic tension.
 * **Velocity (Speed):** Controls the crossfade and balance between Engine A and Engine B. Lower velocities ensure complete dominance of the foundational dyad, while high velocities seamlessly transition exposure toward the dense, unresolved tetrad configuration.
 
 ### Granular Module (Organic Micro-Synthesis)
 
-The granular module provides organic friction, mechanical "breath," and macroscopic roughness (Δf), breaking the clinical linearity typical of digital EV synthesis.
+The granular module provides organic friction, mechanical "breath," and macroscopic roughness, breaking the clinical linearity typical of digital EV synthesis.
 
-* **Dynamic Instance Allocation (`poly~` Optimization):** The engine spawns 36 parallel instances of a customized granular voice. To achieve deterministic computational efficiency, individual instances utilize strict **just-in-time (JIT) activation logic**. Voice threads are computed and unmuted *only* for the precise duration of a grain's windowing function (A(t)), and immediately deactivated upon grain termination. This prevents idle CPU pooling and thread serialization overhead.
+* **Dynamic Instance Allocation (`poly~` Optimization):** The engine spawns 36 parallel instances of a customized granular voice. To achieve deterministic computational efficiency, individual instances utilize strict **just-in-time (JIT) activation logic**. Voice threads are computed and unmuted *only* for the precise duration of a grain's windowing function, and immediately deactivated upon grain termination. This prevents idle CPU pooling and thread serialization overhead.
 * **Vectorized Parameter Windowing:** Each voice pulls from a stochastic boundary window updated via low-frequency data arrays, ensuring non-repetitive micro-structural variations.
 * **Dynamic Buffer Mapping:** The grains are synthesized from a 22-second reference audio buffer compiled at a mapping scale of 1 s ≡ 10 km/h.
-  * *Low Velocity:* Grains are restricted to the early sections of the buffer (0 s ≤ t < 4 s), rich in harmonic, smooth, and warm spectral contents.
-  * *High Velocity:* The lookup window shifts to the later stages of the buffer (t > 10 s), consisting of highly inharmonic, dense, and physically "rough" automotive noise profiles.
+  * *Low Velocity:* Grains are restricted to the early sections of the buffer, rich in harmonic, smooth, and warm spectral contents.
+  * *High Velocity:* The lookup window shifts to the later stages of the buffer, consisting of highly inharmonic, dense, and physically "rough" automotive noise profiles.
 * **Telemetry Mapping Matrix:**
   * *RPM:* Direct control over grain playback speed and pitch transpose ratios, keeping the micro-acoustic texture perfectly phase-aligned and tuned to the Wavetable Core.
-  * *Engine Load:* Directly governs grain trigger density (g_freq) and grain duration (d_g). Low load maps to low-frequency, wide-aperture, overlapping grains (smooth macroscopic envelope). High load switches to high-density, ultra-short grains (d_g < 20 ms), generating acoustic temporal urgency and mimicking high-stress pneumatic/kinetic discharge.
+  * *Engine Load:* Directly governs grain trigger density and grain duration. Low load maps to low-frequency, wide-aperture, overlapping grains (smooth macroscopic envelope). High load switches to high-density, ultra-short grains, generating acoustic temporal urgency and mimicking high-stress pneumatic/kinetic discharge.
 
 ### FX Matrix (Spectral & Spatial Cohesion)
 
