@@ -2,15 +2,64 @@
 
 Real-time audio engine that uses thermic engine vehicle diagnostic parameters to create a synthesized electric vehicle (EV) engine sound. This system bridges OBD-II vehicle telemetry (RPM, engine load, speed) with Max MSP audio synthesis via OSC communication to create immersive and useful engine sonification.
 
+## MAX/MSP Patch
+
+### Wavetable Module (Melodic Core)
+
+The Wavetable Module establishes the signature melodic and harmonic identity of the vehicle. It comprises a dual-engine architecture operating with distinct lookup tables interpolated in real time.
+
+* **Engine A (Dyad Architecture):** At low speeds, Engine A generates a stable harmonic anchor based on a **major third** dyad. As velocity increases, the interval dynamically expands to a **perfect fifth**. This structural expansion creates a perceived acoustic "hollowness" and vacuum, reducing the sensory satisfaction of acceleration.
+* **Engine B (Tetrad Architecture):** Operates on an independent, spectrally richer wavetable configured as a **major seventh** chord. Upon crossing the 100 km/h threshold, the chord transforms into a **minor seventh**, increasing inner-harmonic tension and subjective urgency.
+
+#### Telemetry Mapping Matrix
+
+* **RPM (Revolutions Per Minute):** Maps concurrently to three destinations:
+    1. *Wavetable Phase Accumulator Read Position:* Alters the starting phase and scan index.
+    2. *Fundamental Frequency:* Scales the lookup-table playback speed via an interpolated geometric mapping function, maintaining a constant proportional relationship with the granular textures to ensure absolute spectral alignment.
+    3. *Amplitudinal Balance:* Controls the relative gain of upper extensions against the fundamental. Low RPM prioritizes the fundamental f0, producing a dark, warm, and comforting timbre. High RPM introduces high-frequency brilliance and a prominent melodic environment.
+* **Engine Load:** Modulates the frequency of inter-octave beatings across the modules. This synthesis technique simulates mechanical strain by accelerating a micro-tremolo/amplitude modulation depth, mapping physical effort directly to perceived acoustic tension.
+* **Velocity (Speed):** Controls the crossfade and balance between Engine A and Engine B. Lower velocities ensure complete dominance of the foundational dyad, while high velocities seamlessly transition exposure toward the dense, unresolved tetrad configuration.
+
+### Granular Module (Organic Micro-Synthesis)
+
+The granular module provides organic friction, mechanical "breath", and macroscopic roughness, breaking the clinical linearity typical of digital EV synthesis.
+
+* **Dynamic Instance Allocation (`poly~` Optimization):** The engine spawns 36 parallel instances of a customized granular voice. To achieve deterministic computational efficiency, individual instances utilize strict **just-in-time (JIT) activation logic**. Voice threads are computed and unmuted *only* for the precise duration of a grain's windowing function, and immediately deactivated upon grain termination. This prevents idle CPU pooling and thread serialization overhead.
+* **Vectorized Parameter Windowing:** Each voice pulls from a stochastic boundary window updated via low-frequency data arrays, ensuring non-repetitive micro-structural variations.
+* **Dynamic Buffer Mapping:** The grains are synthesized from a 22-second reference audio buffer compiled at a mapping scale of 1 s ≡ 10 km/h.
+  * *Low Velocity:* Grains are restricted to the early sections of the buffer, rich in harmonic, smooth, and warm spectral contents.
+  * *High Velocity:* The lookup window shifts to the later stages of the buffer, consisting of highly inharmonic, dense, and physically "rough" automotive noise profiles.
+* **Telemetry Mapping Matrix:**
+  * *RPM:* Direct control over grain playback speed and pitch transpose ratios, keeping the micro-acoustic texture perfectly phase-aligned and tuned to the Wavetable Core.
+  * *Engine Load:* Directly governs grain trigger density and grain duration. Low load maps to low-frequency, wide-aperture, overlapping grains (smooth macroscopic envelope). High load switches to high-density, ultra-short grains, generating acoustic temporal urgency and mimicking high-stress pneumatic/kinetic discharge.
+
+### FX Matrix (Spectral & Spatial Cohesion)
+
+The FX module acts as an electroacoustic glue, merging the discrete digital outputs of the Wavetable and Granular engines into a unified, single acoustic object.
+
+1. **Overdrive & Non-Linear Waveshaping:** Introduces subtle, controlled odd-harmonic distortion. By generating identical, phase-locked upper partials across both synthesis engines, it psychoacoustically fuses the distinct sources into a single perceived sound source.
+2. **Resonant Filterbank (Physical Model Simulation):** A specialized multi-channel filter array simulating the acoustic cavity resonances of a physical mechanical chassis. Forcing both engines through identical, static formant peaks establishes a shared structural acoustic profile.
+3. **Early Reflections Network:** A localized, low-latency tapped delay line matrix. It places the synthesized audio within a localized spatial frame, ensuring that the driver's auditory cortex perceives the sound as originating from a shared, concrete physical environment rather than disconnected headphones or isolated transducers.
+
+---
+
+## Low-Latency Optimization & Computational Efficiency
+
+The patch has been architected to fit within strict CPU budget allocations:
+
+* **Zero-Zipper Noise Interpolation:** All continuous telemetry inputs (Speed, RPM, Load) are smoothed at vector level using linear and exponential ramp generators (`line~`) to eliminate quantization artifacts and parameter-induced aliasing.
+* **Memory Footprint:** The granular buffer size is strictly capped at 22 seconds, utilizing single-precision floating-point arrays (`buffer~`) entirely residency-cached in RAM to minimize memory controller page faults and bus latency.
+
+
 ## Prerequisites
 
 Before installation, ensure you have:
 
-- **Hardware**: Vehicle with OBD-II diagnostics support + vLinker serial adapter
-- **Software**:
-  - Python 3.7 or later
-  - Max 8 or later (for audio synthesis patches)
-- **Connectivity**: USB serial port available (e.g., `COM8` on Windows, `/dev/ttyUSB0` on macOS/Linux)
+* **Hardware**: Vehicle with OBD-II diagnostics support + vLinker serial adapter
+* **Software**:
+  * Python 3.7 or later
+  * Max 8 or later (for audio synthesis patches)
+* **Connectivity**: USB serial port available (e.g., `COM8` on Windows, `/dev/ttyUSB0` on macOS/Linux)
 
 ## Installation
 
@@ -28,33 +77,33 @@ setup\install_windows.bat
 
 The installer will:
 
-- Create a Python virtual environment at `.venv/`
-- Install dependencies from `setup/requirements.txt`
-- Remove macOS metadata files (`.DS_Store`) to keep repository clean
+* Create a Python virtual environment at `.venv/`
+* Install dependencies from `setup/requirements.txt`
+* Remove macOS metadata files (`.DS_Store`) to keep repository clean
 
 ## Project Structure
 
 **Core Operational Files (Root):**
 
-- `engineV1.maxpat` — Primary audio synthesis engine with hybrid wavetable and effects processing
-- `granular.maxpat` — Granular synthesis module for textured soundscapes
-- `live_data.py` — Real-time OBD-II to OSC bridge (connects vehicle to Max MSP)
-- `live_data_universal.py` — Universal OBD-II to OSC bridge with automatic protocol and serial port detection
-- `Wavetables/` — Audio assets for wavetable synthesis layers
-- `Audio_files/` — Granular synthesis source material
+* `engineV1.maxpat` — Primary audio synthesis engine with hybrid wavetable and effects processing
+* `granular.maxpat` — Granular synthesis module for textured soundscapes
+* `live_data.py` — Real-time OBD-II to OSC bridge (connects vehicle to Max MSP)
+* `live_data_universal.py` — Universal OBD-II to OSC bridge with automatic protocol and serial port detection
+* `Wavetables/` — Audio assets for wavetable synthesis layers
+* `Audio_files/` — Granular synthesis source material
 
 **Setup & Configuration (`setup/`):**
 
-- `requirements.txt` — Python package dependencies
-- `install_mac.sh` — Automated macOS setup script
-- `install_windows.bat` — Automated Windows setup script
+* `requirements.txt` — Python package dependencies
+* `install_mac.sh` — Automated macOS setup script
+* `install_windows.bat` — Automated Windows setup script
 
 **Data Tools & Algorithm Development (`data-tools/`):**
 
-- `play_data.py` — CSV playback to OSC (for testing without a live vehicle)
-- `rec_data.py` — OBD-II data recording to CSV files
-- `CSV_files/` — Test datasets (18 recorded driving scenarios)
-- `Data Acquisition Protocol.pdf` — OBD-II protocol documentation and signal specifications
+* `play_data.py` — CSV playback to OSC (for testing without a live vehicle)
+* `rec_data.py` — OBD-II data recording to CSV files
+* `CSV_files/` — Test datasets (18 recorded driving scenarios)
+* `Data Acquisition Protocol.pdf` — OBD-II protocol documentation and signal specifications
 
 ## Usage
 
@@ -141,47 +190,47 @@ timestamp,rpm,engine_load,speed
 ...
 ```
 
-- **timestamp** — Elapsed time in seconds (starts at 0.0)
-- **rpm** — Engine RPM (0–8000 typical range)
-- **engine_load** — Engine load percentage (0–100%)
-- **speed** — Vehicle speed in km/h
+* **timestamp** — Elapsed time in seconds (starts at 0.0)
+* **rpm** — Engine RPM (0–8000 typical range)
+* **engine_load** — Engine load percentage (0–100%)
+* **speed** — Vehicle speed in km/h
 
 ## Test Datasets
 
 The `data-tools/CSV_files/` folder contains 18 pre-recorded driving scenarios:
 
-- **Calibration (CAL)**: Idle, steady cruising at various speeds, power cycle startup
-- **Dynamics (DYN)**: Acceleration, coast-down, direction changes, parking maneuvers
-- **Stress (STR)**: Uphill/downhill driving, highway max speed, traction load spikes
-- **Environment (ENV)**: Center and suburban driving profiles
+* **Calibration (CAL)**: Idle, steady cruising at various speeds, power cycle startup
+* **Dynamics (DYN)**: Acceleration, coast-down, direction changes, parking maneuvers
+* **Stress (STR)**: Uphill/downhill driving, highway max speed, traction load spikes
+* **Environment (ENV)**: Center and suburban driving profiles
 
 Use these datasets to validate algorithm behavior across diverse driving conditions.
 
 ## Dependencies
 
-- `python-obd>=0.7.1` — OBD-II protocol communication with vehicle ECU
-- `python-osc>=1.8.0` — Open Sound Control (OSC) client for Max MSP integration
-- `pyserial>=3.5` — Serial port communication for vLinker adapter
-- `Max 8+` — Audio synthesis and real-time signal processing (not installed by pip)
+* `python-obd>=0.7.1` — OBD-II protocol communication with vehicle ECU
+* `python-osc>=1.8.0` — Open Sound Control (OSC) client for Max MSP integration
+* `pyserial>=3.5` — Serial port communication for vLinker adapter
+* `Max 8+` — Audio synthesis and real-time signal processing (not installed by pip)
 
 ## Troubleshooting
 
 **"Unable to connect to the car"**
 
-- Verify vLinker is powered and connected to the USB port
-- Check `PORT` configuration matches your serial port (use Device Manager on Windows, `ls /dev/tty*` on macOS/Linux)
-- Ensure vehicle is in "on" or "ready" state (not off)
+* Verify vLinker is powered and connected to the USB port
+* Check `PORT` configuration matches your serial port (use Device Manager on Windows, `ls /dev/tty*` on macOS/Linux)
+* Ensure vehicle is in "on" or "ready" state (not off)
 
 **"error: File not found"** (in play_data.py)
 
-- Verify `CSV_PATH` and `FILENAME` are correct and file exists
-- Use absolute paths if relative paths aren't working
+* Verify `CSV_PATH` and `FILENAME` are correct and file exists
+* Use absolute paths if relative paths aren't working
 
 **OSC messages not reaching Max MSP**
 
-- Verify Max patch is listening on port `5005`
-- Confirm `UDP_IP = "127.0.0.1"` in Python script (localhost)
-- Check firewall isn't blocking UDP on port 5005
+* Verify Max patch is listening on port `5005`
+* Confirm `UDP_IP = "127.0.0.1"` in Python script (localhost)
+* Check firewall isn't blocking UDP on port 5005
 
 ## Development Workflow
 
@@ -192,7 +241,7 @@ Use these datasets to validate algorithm behavior across diverse driving conditi
 
 ## Notes
 
-- The project uses **Protocol 7 (CAN 29-bit)** hardcoded for vLinker compatibility
-- Data sampling frequency is **20 Hz** (50ms intervals) for both recording and playback
-- OSC messages are sent to address `/car` with payload `[rpm, load, speed]`
-- All Python scripts require the virtual environment activated: `source .venv/bin/activate`
+* The project uses **Protocol 7 (CAN 29-bit)** hardcoded for vLinker compatibility
+* Data sampling frequency is **20 Hz** (50ms intervals) for both recording and playback
+* OSC messages are sent to address `/car` with payload `[rpm, load, speed]`
+* All Python scripts require the virtual environment activated: `source .venv/bin/activate`
