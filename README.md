@@ -2,6 +2,15 @@
 
 Real-time audio engine that uses thermic engine vehicle diagnostic parameters to create a synthesized electric vehicle (EV) engine sound. This system bridges OBD-II vehicle telemetry (RPM, engine load, speed) with Max MSP audio synthesis via OSC communication to create immersive and useful engine sonification.
 
+## Field Testing & Deployment Demonstration
+
+The system has been successfully deployed and validated in a real-world automotive environment. 
+
+### In-Car Demonstration
+Below is a video demonstration showing the real-time OBD-II to OSC data stream driving the Max MSP hybrid synthesis engine during a road test. The video monitors telemetry responsiveness, low-latency DSP execution, and psychoacoustic transition states across various driving scenarios.
+
+[📺 Watch the Road Test Video](https://youtu.be/57LZ0kxlU8A)
+
 ## MAX/MSP Patch
 
 ### Wavetable Module (Melodic Core)
