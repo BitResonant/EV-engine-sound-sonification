@@ -17,10 +17,10 @@ Below is a video demonstration showing the real-time OBD-II to OSC data stream d
 ```mermaid
 flowchart TD
     A["Vehicle ECU"] -->|OBD-II protocol| B["vLinker Adapter\n(USB Serial)"]
-    CSV["CSV Test Files\ndata-tools/CSV_files/"] -->|play_data.py| PY
-    B -->|Serial port| PY["Python Bridge\nlive_data_universal.py"]
+    CSV["CSV Test Files\ndata-tools/CSV_files/"] -->|play_data.py| OSC
+    B -->|"live_data.py\nlive_data_universal.py"| OSC["OSC /car · UDP 127.0.0.1:5005\n[rpm, load, speed] @ 20 Hz"]
 
-    PY -->|"OSC  /car · UDP 127.0.0.1:5005\n[rpm, load, speed] @ 20 Hz"| SYNTH
+    OSC --> SYNTH
 
     subgraph SYNTH ["Max MSP Synthesis Engine"]
         direction TB
