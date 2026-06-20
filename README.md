@@ -4,12 +4,35 @@ Real-time audio engine that uses thermic engine vehicle diagnostic parameters to
 
 ## Field Testing & Deployment Demonstration
 
-The system has been successfully deployed and validated in a real-world automotive environment. 
+The system has been successfully deployed and validated in a real-world automotive environment.
 
 ### In-Car Demonstration
+
 Below is a video demonstration showing the real-time OBD-II to OSC data stream driving the Max MSP hybrid synthesis engine during a road test. The video monitors telemetry responsiveness, low-latency DSP execution, and psychoacoustic transition states across various driving scenarios.
 
 [📺 Watch the Road Test Video](https://youtu.be/57LZ0kxlU8A)
+
+## System Data Flow
+
+```mermaid
+flowchart TD
+    A["Vehicle ECU"] -->|OBD-II protocol| B["vLinker Adapter\n(USB Serial)"]
+    CSV["CSV Test Files\ndata-tools/CSV_files/"] -->|play_data.py| PY
+    B -->|Serial port| PY["Python Bridge\nlive_data_universal.py"]
+
+    PY -->|"OSC  /car · UDP 127.0.0.1:5005\n[rpm, load, speed] @ 20 Hz"| SYNTH
+
+    subgraph SYNTH ["Max MSP Synthesis Engine"]
+        direction TB
+        WT["Wavetable Module\n(Melodic Core)"]
+        GR["Granular Module\n(Organic Texture)"]
+        FX["FX Matrix\n(Spectral & Spatial Cohesion)"]
+        WT --> FX
+        GR --> FX
+    end
+
+    FX --> OUT["Audio Output"]
+```
 
 ## MAX/MSP Patch
 
@@ -58,7 +81,6 @@ The patch has been architected to fit within strict CPU budget allocations:
 
 * **Zero-Zipper Noise Interpolation:** All continuous telemetry inputs (Speed, RPM, Load) are smoothed at vector level using linear and exponential ramp generators (`line~`) to eliminate quantization artifacts and parameter-induced aliasing.
 * **Memory Footprint:** The granular buffer size is strictly capped at 22 seconds, utilizing single-precision floating-point arrays (`buffer~`) entirely residency-cached in RAM to minimize memory controller page faults and bus latency.
-
 
 ## Prerequisites
 
@@ -191,7 +213,7 @@ Press `Ctrl+C` to stop recording. The CSV file will be saved in `SAVE_PATH` with
 
 All CSV files use the following structure:
 
-```
+```csv
 timestamp,rpm,engine_load,speed
 0.000,850,15.3,0
 0.050,850,15.3,0
@@ -224,7 +246,7 @@ Use these datasets to validate algorithm behavior across diverse driving conditi
 
 ## Troubleshooting
 
-**"Unable to connect to the car"**
+### "Unable to connect to the car"
 
 * Verify vLinker is powered and connected to the USB port
 * Check `PORT` configuration matches your serial port (use Device Manager on Windows, `ls /dev/tty*` on macOS/Linux)
@@ -235,7 +257,7 @@ Use these datasets to validate algorithm behavior across diverse driving conditi
 * Verify `CSV_PATH` and `FILENAME` are correct and file exists
 * Use absolute paths if relative paths aren't working
 
-**OSC messages not reaching Max MSP**
+### OSC messages not reaching Max MSP
 
 * Verify Max patch is listening on port `5005`
 * Confirm `UDP_IP = "127.0.0.1"` in Python script (localhost)
