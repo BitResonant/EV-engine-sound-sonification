@@ -41,6 +41,7 @@ def attempt_connection(port, baudrate, protocol):
             return connection
         else:
             print("✗ Failed to connect")
+            connection.close()
             return None
     except Exception as e:
         print(f"✗ Error: {str(e)[:50]}")
@@ -160,6 +161,8 @@ def run_realtime_obd_to_max():
 
     except KeyboardInterrupt:
         print("\n\nReal-Time Session Terminated.")
+    except Exception as e:
+        print(f"\n\n✗ Connection error during streaming: {e}")
     finally:
         connection.close()
 
