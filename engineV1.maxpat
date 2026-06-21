@@ -92,8 +92,9 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 42.0, 85.0, 1852.0, 921.0 ],
+						"rect" : [ 34.0, 95.0, 1444.0, 787.0 ],
 						"gridsize" : [ 15.0, 15.0 ],
+						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-25",
@@ -894,7 +895,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 640.0, 436.0, 153.0, 75.0 ],
+									"patching_rect" : [ 640.0, 436.0, 153.0, 74.0 ],
 									"text" : "early reflections to place the synthesis modules to make them seem like they come from the same sonic universe."
 								}
 
@@ -920,7 +921,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 640.0, 263.0, 150.0, 75.0 ],
+									"patching_rect" : [ 640.0, 263.0, 150.0, 74.0 ],
 									"text" : "filters that give the modules the same acoustic \"fingerprint\" by sharing the same resonances"
 								}
 
@@ -943,8 +944,9 @@
 										}
 ,
 										"classnamespace" : "box",
-										"rect" : [ 26.0, 85.0, 1852.0, 921.0 ],
+										"rect" : [ 34.0, 95.0, 1444.0, 787.0 ],
 										"gridsize" : [ 15.0, 15.0 ],
+										"visible" : 1,
 										"boxes" : [ 											{
 												"box" : 												{
 													"id" : "obj-54",
@@ -1029,17 +1031,6 @@
 											}
 , 											{
 												"box" : 												{
-													"id" : "obj-45",
-													"maxclass" : "comment",
-													"numinlets" : 1,
-													"numoutlets" : 0,
-													"patching_rect" : [ 1017.0, 740.0, 150.0, 20.0 ],
-													"text" : "Volume      Q"
-												}
-
-											}
-, 											{
-												"box" : 												{
 													"id" : "obj-43",
 													"maxclass" : "newobj",
 													"numinlets" : 1,
@@ -1059,32 +1050,6 @@
 													"outlettype" : [ "" ],
 													"patching_rect" : [ 487.0, 70.0, 77.0, 22.0 ],
 													"text" : "loadmess 20"
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"format" : 6,
-													"id" : "obj-41",
-													"maxclass" : "flonum",
-													"numinlets" : 1,
-													"numoutlets" : 2,
-													"outlettype" : [ "", "bang" ],
-													"parameter_enable" : 0,
-													"patching_rect" : [ 1090.0, 701.0, 50.0, 22.0 ]
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"format" : 6,
-													"id" : "obj-40",
-													"maxclass" : "flonum",
-													"numinlets" : 1,
-													"numoutlets" : 2,
-													"outlettype" : [ "", "bang" ],
-													"parameter_enable" : 0,
-													"patching_rect" : [ 1017.0, 701.0, 71.0, 22.0 ]
 												}
 
 											}
@@ -1906,96 +1871,6 @@
 											}
 , 											{
 												"patchline" : 												{
-													"destination" : [ "obj-18", 0 ],
-													"midpoints" : [ 1026.5, 726.0, 657.0, 726.0, 657.0, 228.0, 496.5, 228.0 ],
-													"order" : 4,
-													"source" : [ "obj-40", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-19", 0 ],
-													"midpoints" : [ 1026.5, 726.0, 873.0, 726.0, 873.0, 228.0, 712.5, 228.0 ],
-													"order" : 3,
-													"source" : [ "obj-40", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-24", 0 ],
-													"midpoints" : [ 1026.5, 726.0, 903.0, 726.0, 903.0, 237.0, 928.0, 237.0 ],
-													"order" : 2,
-													"source" : [ "obj-40", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-29", 0 ],
-													"midpoints" : [ 1026.5, 726.0, 1002.0, 726.0, 1002.0, 327.0, 1110.0, 327.0, 1110.0, 237.0, 1134.5, 237.0 ],
-													"order" : 1,
-													"source" : [ "obj-40", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-34", 0 ],
-													"midpoints" : [ 1026.5, 726.0, 1002.0, 726.0, 1002.0, 327.0, 1314.0, 327.0, 1314.0, 237.0, 1338.5, 237.0 ],
-													"order" : 0,
-													"source" : [ "obj-40", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-13", 0 ],
-													"midpoints" : [ 1099.5, 726.0, 657.0, 726.0, 657.0, 228.0, 604.5, 228.0 ],
-													"order" : 4,
-													"source" : [ "obj-41", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-21", 0 ],
-													"midpoints" : [ 1099.5, 726.0, 873.0, 726.0, 873.0, 228.0, 820.5, 228.0 ],
-													"order" : 3,
-													"source" : [ "obj-41", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-26", 0 ],
-													"midpoints" : [ 1099.5, 726.0, 1152.0, 726.0, 1152.0, 327.0, 1086.0, 327.0, 1086.0, 228.0, 1036.0, 228.0 ],
-													"order" : 2,
-													"source" : [ "obj-41", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-31", 0 ],
-													"midpoints" : [ 1099.5, 726.0, 1176.0, 726.0, 1176.0, 228.0, 1242.5, 228.0 ],
-													"order" : 1,
-													"source" : [ "obj-41", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-36", 0 ],
-													"midpoints" : [ 1099.5, 726.0, 1314.0, 726.0, 1314.0, 228.0, 1446.5, 228.0 ],
-													"order" : 0,
-													"source" : [ "obj-41", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
 													"destination" : [ "obj-13", 0 ],
 													"midpoints" : [ 496.5, 228.0, 604.5, 228.0 ],
 													"order" : 4,
@@ -2093,6 +1968,13 @@
 											}
 , 											{
 												"patchline" : 												{
+													"destination" : [ "obj-22", 0 ],
+													"source" : [ "obj-51", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
 													"destination" : [ "obj-27", 0 ],
 													"source" : [ "obj-52", 0 ]
 												}
@@ -2135,7 +2017,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 640.0, 94.0, 153.0, 62.0 ],
+									"patching_rect" : [ 640.0, 94.0, 155.0, 60.0 ],
 									"text" : "saturation to generate identical harmonics to both modules to glue them together"
 								}
 
