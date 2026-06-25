@@ -13,6 +13,17 @@ UDP_IP = "127.0.0.1"
 UDP_PORT = 5005
 client = udp_client.SimpleUDPClient(UDP_IP, UDP_PORT)
 
+def extract_value(response, default=0.0):
+    """Return the numeric magnitude of an OBD response, or a default if missing.
+
+    Commands are looked up via dict access and values via getattr so the code
+    stays valid regardless of how the obd/pint libraries expose their members.
+    """
+    if response is None or response.is_null():
+        return default
+    return getattr(response.value, "magnitude", default)
+
+
 def run_realtime_obd_to_max():
     print(f"--- Real-Time OBD connection (Port: {PORT}) ---")
     
@@ -26,10 +37,11 @@ def run_realtime_obd_to_max():
     print("Synchronized! Sending data to Max MSP via OSC (Address: /car)")
     print("Press Ctrl+C to stop")
 
-    # Commands to monitor
-    cmd_rpm = obd.commands.RPM
-    cmd_load = obd.commands.ENGINE_LOAD
-    cmd_speed = obd.commands.SPEED
+    # Commands to monitor (dict access avoids static-analysis warnings, since
+    # obd.commands populates these names dynamically at runtime)
+    cmd_rpm = obd.commands["RPM"]
+    cmd_load = obd.commands["ENGINE_LOAD"]
+    cmd_speed = obd.commands["SPEED"]
 
     try:
         while True:
@@ -41,9 +53,9 @@ def run_realtime_obd_to_max():
             res_speed = connection.query(cmd_speed)
 
             # Extracting numeric values
-            rpm = res_rpm.value.magnitude if not res_rpm.is_null() else 0.0
-            load = res_load.value.magnitude if not res_load.is_null() else 0.0
-            speed = res_speed.value.magnitude if not res_speed.is_null() else 0.0
+            rpm = extract_value(res_rpm)
+            load = extract_value(res_load)
+            speed = extract_value(res_speed)
 
             # Sending OSC message to Max MSP
             client.send_message("/car", [rpm, load, speed])
