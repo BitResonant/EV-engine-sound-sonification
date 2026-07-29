@@ -2,7 +2,7 @@
 
 A real-time synthesis engine that turns live vehicle telemetry into an interior engine sound for electric vehicles. Telemetry is read from the OBD-II port, streamed over OSC, and used to drive a hybrid wavetable/granular engine in Max MSP. Validated on the road.
 
-**Matteo Caruso Linardon** (Lead research & DSP Development). Road testing conducted with **Luca Piscanec**, who provided the test vehicle and drove every recorded session.
+**[Matteo Caruso Linardon](https://carusolinardon.com)** (Lead research & DSP Development). Road testing conducted with **Luca Piscanec**, who provided the test vehicle and drove every recorded session.
 
 **[▶ Watch the road test on YouTube](https://youtu.be/57LZ0kxlU8A)**. The live OBD-II to OSC stream driving the Max MSP engine in a moving car.
 
