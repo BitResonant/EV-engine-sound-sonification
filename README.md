@@ -4,6 +4,8 @@ A real-time synthesis engine that turns live vehicle telemetry into an interior 
 
 **[Matteo Caruso Linardon](https://carusolinardon.com)** (Lead research & DSP Development). Road testing conducted with **Luca Piscanec**, who provided the test vehicle and drove every recorded session.
 
+[![License: CC BY-NC-SA 4.0](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
 **[▶ Watch the road test on YouTube](https://youtu.be/57LZ0kxlU8A)**. The live OBD-II to OSC stream driving the Max MSP engine in a moving car.
 
 [![Road test video on YouTube](https://img.youtube.com/vi/57LZ0kxlU8A/mqdefault.jpg)](https://youtu.be/57LZ0kxlU8A)
@@ -587,3 +589,7 @@ Expected on the current build, from two separate causes. On a vehicle with a gea
 - **Effective sampling rate is 10.4 Hz** (96 ms median interval) for the recorded datasets, and ~20 Hz for the live bridge — the two scripts compute their sleep differently, see [Recording New Vehicle Data](#recording-new-vehicle-data)
 - OSC messages are sent to address `/car` with payload `[rpm, load, speed]`
 - All Python scripts except `analyze_telemetry.py` require the virtual environment activated: `source .venv/bin/activate`
+
+## License
+
+This project is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) (Attribution-NonCommercial-ShareAlike). You're free to use and modify it, including the code, patches and audio assets, as long as you credit **Matteo Caruso Linardon**, don't use it commercially, and release any derivative under the same license. See [LICENSE](LICENSE) for the full terms.
